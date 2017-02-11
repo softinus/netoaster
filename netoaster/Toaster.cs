@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 
 namespace netoaster
 {
     public static class Toaster
     {
         private static ToasterWindow GetToasterWindow(FrameworkElement owner, ToastType type, string title, string message,
-            ToasterPosition position, ToasterAnimation animation, double margin)
+            ToasterPosition position, ToasterAnimation animation, double margin, Brush brush= null)
         {
             var toaster = new ToasterWindow(owner, title, message, position, animation, margin);
             switch (type)
@@ -25,6 +26,12 @@ namespace netoaster
                 case ToastType.Success:
                     toaster.Ico.Data = NotificationIcoPath.Success;
                     toaster.Notification.Background = NotificationColor.Success;
+                    break;
+                case ToastType.Custom:
+                    if(brush != null)
+                    {
+                        toaster.Notification.Background = brush;
+                    }
                     break;
             }
             return toaster;
@@ -75,6 +82,19 @@ namespace netoaster
             double margin = 10.0)
         {
             var toaster = GetToasterWindow(owner, ToastType.Warning, title, message, position, animation, margin);
+            toaster.Show();
+        }
+
+        public static void ShowCustom(
+            Window owner,
+            string title = "Custom",
+            string message = "",
+            Brush color = null,
+            ToasterPosition position = ToasterPosition.PrimaryScreenBottomRight,
+            ToasterAnimation animation = ToasterAnimation.SlideInFromRight,
+            double margin = 10.0)
+        {
+            var toaster = GetToasterWindow(owner, ToastType.Custom, title, message, position, animation, margin);
             toaster.Show();
         }
     }

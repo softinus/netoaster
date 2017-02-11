@@ -40,7 +40,8 @@ namespace netoaster
         Error,
         Info,
         Success,
-        Warning
+        Warning,
+        Custom
     }
     public enum ToasterPosition
     {
